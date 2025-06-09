@@ -1,0 +1,24 @@
+edition = "2023";
+
+import "google/protobuf/empty.proto";
+
+option go_package = "lovify-user/service";
+package lovify_user_service;
+
+service UserService {
+  rpc LoginSpotify(LoginSpotifyRequest) returns (LoginSpotifyResponse);
+  rpc SpotifyCallback(SpotifyCallbackRequest) returns (google.protobuf.Empty);
+}
+
+message LoginSpotifyRequest {
+  string userID = 1;
+}
+
+message LoginSpotifyResponse {
+  string url = 1;
+}
+
+message SpotifyCallbackRequest {
+  string state = 1;
+  string code = 2;
+}
