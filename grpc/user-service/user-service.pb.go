@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -22,28 +23,202 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type LoginSpotifyRequest struct {
+type Gender int32
+
+const (
+	Gender_UNKNOWN_GENDER Gender = 0
+	Gender_MALE           Gender = 1
+	Gender_FEMALE         Gender = 2
+)
+
+// Enum value maps for Gender.
+var (
+	Gender_name = map[int32]string{
+		0: "UNKNOWN_GENDER",
+		1: "MALE",
+		2: "FEMALE",
+	}
+	Gender_value = map[string]int32{
+		"UNKNOWN_GENDER": 0,
+		"MALE":           1,
+		"FEMALE":         2,
+	}
+)
+
+func (x Gender) Enum() *Gender {
+	p := new(Gender)
+	*p = x
+	return p
+}
+
+func (x Gender) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Gender) Descriptor() protoreflect.EnumDescriptor {
+	return file_grpc_user_service_user_service_proto_enumTypes[0].Descriptor()
+}
+
+func (Gender) Type() protoreflect.EnumType {
+	return &file_grpc_user_service_user_service_proto_enumTypes[0]
+}
+
+func (x Gender) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Gender.Descriptor instead.
+func (Gender) EnumDescriptor() ([]byte, []int) {
+	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{0}
+}
+
+type SexualOrientation int32
+
+const (
+	SexualOrientation_UNKNOWN_SEXUAL_ORIENTATION SexualOrientation = 0
+	SexualOrientation_HETEROSEXUAL               SexualOrientation = 1
+	SexualOrientation_HOMOSEXUAL                 SexualOrientation = 2
+)
+
+// Enum value maps for SexualOrientation.
+var (
+	SexualOrientation_name = map[int32]string{
+		0: "UNKNOWN_SEXUAL_ORIENTATION",
+		1: "HETEROSEXUAL",
+		2: "HOMOSEXUAL",
+	}
+	SexualOrientation_value = map[string]int32{
+		"UNKNOWN_SEXUAL_ORIENTATION": 0,
+		"HETEROSEXUAL":               1,
+		"HOMOSEXUAL":                 2,
+	}
+)
+
+func (x SexualOrientation) Enum() *SexualOrientation {
+	p := new(SexualOrientation)
+	*p = x
+	return p
+}
+
+func (x SexualOrientation) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (SexualOrientation) Descriptor() protoreflect.EnumDescriptor {
+	return file_grpc_user_service_user_service_proto_enumTypes[1].Descriptor()
+}
+
+func (SexualOrientation) Type() protoreflect.EnumType {
+	return &file_grpc_user_service_user_service_proto_enumTypes[1]
+}
+
+func (x SexualOrientation) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use SexualOrientation.Descriptor instead.
+func (SexualOrientation) EnumDescriptor() ([]byte, []int) {
+	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{1}
+}
+
+type CreateUserRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Username          *string                `protobuf:"bytes,1,opt,name=username" json:"username,omitempty"`
+	Birthday          *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=birthday" json:"birthday,omitempty"`
+	Gender            *Gender                `protobuf:"varint,3,opt,name=gender,enum=lovify_user_service.Gender" json:"gender,omitempty"`
+	SexualOrientation *SexualOrientation     `protobuf:"varint,4,opt,name=sexualOrientation,enum=lovify_user_service.SexualOrientation" json:"sexualOrientation,omitempty"`
+	Description       *string                `protobuf:"bytes,5,opt,name=description" json:"description,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *CreateUserRequest) Reset() {
+	*x = CreateUserRequest{}
+	mi := &file_grpc_user_service_user_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateUserRequest) ProtoMessage() {}
+
+func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_user_service_user_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
+func (*CreateUserRequest) Descriptor() ([]byte, []int) {
+	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreateUserRequest) GetUsername() string {
+	if x != nil && x.Username != nil {
+		return *x.Username
+	}
+	return ""
+}
+
+func (x *CreateUserRequest) GetBirthday() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Birthday
+	}
+	return nil
+}
+
+func (x *CreateUserRequest) GetGender() Gender {
+	if x != nil && x.Gender != nil {
+		return *x.Gender
+	}
+	return Gender_UNKNOWN_GENDER
+}
+
+func (x *CreateUserRequest) GetSexualOrientation() SexualOrientation {
+	if x != nil && x.SexualOrientation != nil {
+		return *x.SexualOrientation
+	}
+	return SexualOrientation_UNKNOWN_SEXUAL_ORIENTATION
+}
+
+func (x *CreateUserRequest) GetDescription() string {
+	if x != nil && x.Description != nil {
+		return *x.Description
+	}
+	return ""
+}
+
+type CreateUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserID        *string                `protobuf:"bytes,1,opt,name=userID" json:"userID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LoginSpotifyRequest) Reset() {
-	*x = LoginSpotifyRequest{}
-	mi := &file_grpc_user_service_user_service_proto_msgTypes[0]
+func (x *CreateUserResponse) Reset() {
+	*x = CreateUserResponse{}
+	mi := &file_grpc_user_service_user_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LoginSpotifyRequest) String() string {
+func (x *CreateUserResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LoginSpotifyRequest) ProtoMessage() {}
+func (*CreateUserResponse) ProtoMessage() {}
 
-func (x *LoginSpotifyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_user_service_user_service_proto_msgTypes[0]
+func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_user_service_user_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -54,40 +229,40 @@ func (x *LoginSpotifyRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LoginSpotifyRequest.ProtoReflect.Descriptor instead.
-func (*LoginSpotifyRequest) Descriptor() ([]byte, []int) {
-	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use CreateUserResponse.ProtoReflect.Descriptor instead.
+func (*CreateUserResponse) Descriptor() ([]byte, []int) {
+	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *LoginSpotifyRequest) GetUserID() string {
+func (x *CreateUserResponse) GetUserID() string {
 	if x != nil && x.UserID != nil {
 		return *x.UserID
 	}
 	return ""
 }
 
-type LoginSpotifyResponse struct {
+type MusicProviderLoginRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Url           *string                `protobuf:"bytes,1,opt,name=url" json:"url,omitempty"`
+	UserID        *string                `protobuf:"bytes,1,opt,name=userID" json:"userID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LoginSpotifyResponse) Reset() {
-	*x = LoginSpotifyResponse{}
-	mi := &file_grpc_user_service_user_service_proto_msgTypes[1]
+func (x *MusicProviderLoginRequest) Reset() {
+	*x = MusicProviderLoginRequest{}
+	mi := &file_grpc_user_service_user_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LoginSpotifyResponse) String() string {
+func (x *MusicProviderLoginRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LoginSpotifyResponse) ProtoMessage() {}
+func (*MusicProviderLoginRequest) ProtoMessage() {}
 
-func (x *LoginSpotifyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_user_service_user_service_proto_msgTypes[1]
+func (x *MusicProviderLoginRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_user_service_user_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -98,19 +273,63 @@ func (x *LoginSpotifyResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LoginSpotifyResponse.ProtoReflect.Descriptor instead.
-func (*LoginSpotifyResponse) Descriptor() ([]byte, []int) {
-	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use MusicProviderLoginRequest.ProtoReflect.Descriptor instead.
+func (*MusicProviderLoginRequest) Descriptor() ([]byte, []int) {
+	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *LoginSpotifyResponse) GetUrl() string {
+func (x *MusicProviderLoginRequest) GetUserID() string {
+	if x != nil && x.UserID != nil {
+		return *x.UserID
+	}
+	return ""
+}
+
+type MusicProviderLoginResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Url           *string                `protobuf:"bytes,1,opt,name=url" json:"url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MusicProviderLoginResponse) Reset() {
+	*x = MusicProviderLoginResponse{}
+	mi := &file_grpc_user_service_user_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MusicProviderLoginResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MusicProviderLoginResponse) ProtoMessage() {}
+
+func (x *MusicProviderLoginResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_user_service_user_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MusicProviderLoginResponse.ProtoReflect.Descriptor instead.
+func (*MusicProviderLoginResponse) Descriptor() ([]byte, []int) {
+	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *MusicProviderLoginResponse) GetUrl() string {
 	if x != nil && x.Url != nil {
 		return *x.Url
 	}
 	return ""
 }
 
-type SpotifyCallbackRequest struct {
+type MusicProviderOAuthExchangeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	State         *string                `protobuf:"bytes,1,opt,name=state" json:"state,omitempty"`
 	Code          *string                `protobuf:"bytes,2,opt,name=code" json:"code,omitempty"`
@@ -118,21 +337,21 @@ type SpotifyCallbackRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *SpotifyCallbackRequest) Reset() {
-	*x = SpotifyCallbackRequest{}
-	mi := &file_grpc_user_service_user_service_proto_msgTypes[2]
+func (x *MusicProviderOAuthExchangeRequest) Reset() {
+	*x = MusicProviderOAuthExchangeRequest{}
+	mi := &file_grpc_user_service_user_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *SpotifyCallbackRequest) String() string {
+func (x *MusicProviderOAuthExchangeRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SpotifyCallbackRequest) ProtoMessage() {}
+func (*MusicProviderOAuthExchangeRequest) ProtoMessage() {}
 
-func (x *SpotifyCallbackRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_user_service_user_service_proto_msgTypes[2]
+func (x *MusicProviderOAuthExchangeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_user_service_user_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -143,19 +362,19 @@ func (x *SpotifyCallbackRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SpotifyCallbackRequest.ProtoReflect.Descriptor instead.
-func (*SpotifyCallbackRequest) Descriptor() ([]byte, []int) {
-	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use MusicProviderOAuthExchangeRequest.ProtoReflect.Descriptor instead.
+func (*MusicProviderOAuthExchangeRequest) Descriptor() ([]byte, []int) {
+	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *SpotifyCallbackRequest) GetState() string {
+func (x *MusicProviderOAuthExchangeRequest) GetState() string {
 	if x != nil && x.State != nil {
 		return *x.State
 	}
 	return ""
 }
 
-func (x *SpotifyCallbackRequest) GetCode() string {
+func (x *MusicProviderOAuthExchangeRequest) GetCode() string {
 	if x != nil && x.Code != nil {
 		return *x.Code
 	}
@@ -166,17 +385,37 @@ var File_grpc_user_service_user_service_proto protoreflect.FileDescriptor
 
 const file_grpc_user_service_user_service_proto_rawDesc = "" +
 	"\n" +
-	"$grpc/user-service/user-service.proto\x12\x13lovify_user_service\x1a\x1bgoogle/protobuf/empty.proto\"-\n" +
-	"\x13LoginSpotifyRequest\x12\x16\n" +
-	"\x06userID\x18\x01 \x01(\tR\x06userID\"(\n" +
-	"\x14LoginSpotifyResponse\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03url\"B\n" +
-	"\x16SpotifyCallbackRequest\x12\x14\n" +
+	"$grpc/user-service/user-service.proto\x12\x13lovify_user_service\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x94\x02\n" +
+	"\x11CreateUserRequest\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x126\n" +
+	"\bbirthday\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\bbirthday\x123\n" +
+	"\x06gender\x18\x03 \x01(\x0e2\x1b.lovify_user_service.GenderR\x06gender\x12T\n" +
+	"\x11sexualOrientation\x18\x04 \x01(\x0e2&.lovify_user_service.SexualOrientationR\x11sexualOrientation\x12 \n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\",\n" +
+	"\x12CreateUserResponse\x12\x16\n" +
+	"\x06userID\x18\x01 \x01(\tR\x06userID\"3\n" +
+	"\x19MusicProviderLoginRequest\x12\x16\n" +
+	"\x06userID\x18\x01 \x01(\tR\x06userID\".\n" +
+	"\x1aMusicProviderLoginResponse\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\"M\n" +
+	"!MusicProviderOAuthExchangeRequest\x12\x14\n" +
 	"\x05state\x18\x01 \x01(\tR\x05state\x12\x12\n" +
-	"\x04code\x18\x02 \x01(\tR\x04code2\xca\x01\n" +
-	"\vUserService\x12c\n" +
-	"\fLoginSpotify\x12(.lovify_user_service.LoginSpotifyRequest\x1a).lovify_user_service.LoginSpotifyResponse\x12V\n" +
-	"\x0fSpotifyCallback\x12+.lovify_user_service.SpotifyCallbackRequest\x1a\x16.google.protobuf.EmptyB\x15Z\x13lovify-user/serviceb\beditionsp\xe8\a"
+	"\x04code\x18\x02 \x01(\tR\x04code*2\n" +
+	"\x06Gender\x12\x12\n" +
+	"\x0eUNKNOWN_GENDER\x10\x00\x12\b\n" +
+	"\x04MALE\x10\x01\x12\n" +
+	"\n" +
+	"\x06FEMALE\x10\x02*U\n" +
+	"\x11SexualOrientation\x12\x1e\n" +
+	"\x1aUNKNOWN_SEXUAL_ORIENTATION\x10\x00\x12\x10\n" +
+	"\fHETEROSEXUAL\x10\x01\x12\x0e\n" +
+	"\n" +
+	"HOMOSEXUAL\x10\x022\xd1\x02\n" +
+	"\vUserService\x12]\n" +
+	"\n" +
+	"CreateUser\x12&.lovify_user_service.CreateUserRequest\x1a'.lovify_user_service.CreateUserResponse\x12u\n" +
+	"\x12MusicProviderLogin\x12..lovify_user_service.MusicProviderLoginRequest\x1a/.lovify_user_service.MusicProviderLoginResponse\x12l\n" +
+	"\x1aMusicProviderOAuthExchange\x126.lovify_user_service.MusicProviderOAuthExchangeRequest\x1a\x16.google.protobuf.EmptyB\x15Z\x13lovify-user/serviceb\beditionsp\xe8\a"
 
 var (
 	file_grpc_user_service_user_service_proto_rawDescOnce sync.Once
@@ -190,23 +429,34 @@ func file_grpc_user_service_user_service_proto_rawDescGZIP() []byte {
 	return file_grpc_user_service_user_service_proto_rawDescData
 }
 
-var file_grpc_user_service_user_service_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_grpc_user_service_user_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_grpc_user_service_user_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_grpc_user_service_user_service_proto_goTypes = []any{
-	(*LoginSpotifyRequest)(nil),    // 0: lovify_user_service.LoginSpotifyRequest
-	(*LoginSpotifyResponse)(nil),   // 1: lovify_user_service.LoginSpotifyResponse
-	(*SpotifyCallbackRequest)(nil), // 2: lovify_user_service.SpotifyCallbackRequest
-	(*emptypb.Empty)(nil),          // 3: google.protobuf.Empty
+	(Gender)(0),                               // 0: lovify_user_service.Gender
+	(SexualOrientation)(0),                    // 1: lovify_user_service.SexualOrientation
+	(*CreateUserRequest)(nil),                 // 2: lovify_user_service.CreateUserRequest
+	(*CreateUserResponse)(nil),                // 3: lovify_user_service.CreateUserResponse
+	(*MusicProviderLoginRequest)(nil),         // 4: lovify_user_service.MusicProviderLoginRequest
+	(*MusicProviderLoginResponse)(nil),        // 5: lovify_user_service.MusicProviderLoginResponse
+	(*MusicProviderOAuthExchangeRequest)(nil), // 6: lovify_user_service.MusicProviderOAuthExchangeRequest
+	(*timestamppb.Timestamp)(nil),             // 7: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),                     // 8: google.protobuf.Empty
 }
 var file_grpc_user_service_user_service_proto_depIdxs = []int32{
-	0, // 0: lovify_user_service.UserService.LoginSpotify:input_type -> lovify_user_service.LoginSpotifyRequest
-	2, // 1: lovify_user_service.UserService.SpotifyCallback:input_type -> lovify_user_service.SpotifyCallbackRequest
-	1, // 2: lovify_user_service.UserService.LoginSpotify:output_type -> lovify_user_service.LoginSpotifyResponse
-	3, // 3: lovify_user_service.UserService.SpotifyCallback:output_type -> google.protobuf.Empty
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	7, // 0: lovify_user_service.CreateUserRequest.birthday:type_name -> google.protobuf.Timestamp
+	0, // 1: lovify_user_service.CreateUserRequest.gender:type_name -> lovify_user_service.Gender
+	1, // 2: lovify_user_service.CreateUserRequest.sexualOrientation:type_name -> lovify_user_service.SexualOrientation
+	2, // 3: lovify_user_service.UserService.CreateUser:input_type -> lovify_user_service.CreateUserRequest
+	4, // 4: lovify_user_service.UserService.MusicProviderLogin:input_type -> lovify_user_service.MusicProviderLoginRequest
+	6, // 5: lovify_user_service.UserService.MusicProviderOAuthExchange:input_type -> lovify_user_service.MusicProviderOAuthExchangeRequest
+	3, // 6: lovify_user_service.UserService.CreateUser:output_type -> lovify_user_service.CreateUserResponse
+	5, // 7: lovify_user_service.UserService.MusicProviderLogin:output_type -> lovify_user_service.MusicProviderLoginResponse
+	8, // 8: lovify_user_service.UserService.MusicProviderOAuthExchange:output_type -> google.protobuf.Empty
+	6, // [6:9] is the sub-list for method output_type
+	3, // [3:6] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_grpc_user_service_user_service_proto_init() }
@@ -219,13 +469,14 @@ func file_grpc_user_service_user_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_grpc_user_service_user_service_proto_rawDesc), len(file_grpc_user_service_user_service_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   3,
+			NumEnums:      2,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_grpc_user_service_user_service_proto_goTypes,
 		DependencyIndexes: file_grpc_user_service_user_service_proto_depIdxs,
+		EnumInfos:         file_grpc_user_service_user_service_proto_enumTypes,
 		MessageInfos:      file_grpc_user_service_user_service_proto_msgTypes,
 	}.Build()
 	File_grpc_user_service_user_service_proto = out.File
