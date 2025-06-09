@@ -1,4 +1,4 @@
-module lovify-user-service
+module github.com/gorkagg10/lovify-user-service
 
 go 1.24
 

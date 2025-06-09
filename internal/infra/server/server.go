@@ -1,7 +1,7 @@
 package server
 
 import (
-	userServiceGrpc "lovify-user-service/grpc/user-service"
+	userServiceGrpc "github.com/gorkagg10/lovify-user-service/grpc/user-service"
 )
 
 type UserServer struct {
