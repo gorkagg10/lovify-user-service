@@ -9,7 +9,7 @@ package lovify_user_service;
 service UserService {
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
   rpc MusicProviderLogin(MusicProviderLoginRequest) returns (MusicProviderLoginResponse);
-  rpc MusicProviderOAuthExchange(MusicProviderOAuthExchangeRequest) returns (google.protobuf.Empty);
+  rpc MusicProviderOAuthCallback(MusicProviderOAuthCallbackRequest) returns (google.protobuf.Empty);
 }
 
 enum Gender {
@@ -44,7 +44,7 @@ message MusicProviderLoginResponse {
   string url = 1;
 }
 
-message MusicProviderOAuthExchangeRequest {
+message MusicProviderOAuthCallbackRequest {
   string state = 1;
   string code = 2;
 }

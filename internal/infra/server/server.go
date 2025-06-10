@@ -2,11 +2,10 @@ package server
 
 import (
 	"context"
-	"google.golang.org/protobuf/types/known/emptypb"
-
 	userServiceGrpc "github.com/gorkagg10/lovify-user-service/grpc/user-service"
 	"github.com/gorkagg10/lovify-user-service/internal/domain/oauth"
 	"github.com/gorkagg10/lovify-user-service/internal/domain/profile"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type UserServer struct {
@@ -42,8 +41,12 @@ func (s *UserServer) MusicProviderLogin(_ context.Context, req *userServiceGrpc.
 	}, nil
 }
 
-func (s *UserServer) MusicProviderOAuthExchange(ctx context.Context, req *userServiceGrpc.MusicProviderOAuthExchangeRequest) (*emptypb.Empty, error) {
-	_, err := s.OAuthService.Exchange(ctx, req.GetCode())
+func (s *UserServer) MusicProviderOAuthCallback(ctx context.Context, req *userServiceGrpc.MusicProviderOAuthCallbackRequest) (*emptypb.Empty, error) {
+	token, err := s.OAuthService.Exchange(ctx, req.GetCode())
+	if err != nil {
+		return nil, err
+	}
+	err = s.ProfileManager.ConnectWithMusicProvider(ctx, req.GetState(), token)
 	if err != nil {
 		return nil, err
 	}

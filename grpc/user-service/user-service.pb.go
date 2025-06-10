@@ -329,7 +329,7 @@ func (x *MusicProviderLoginResponse) GetUrl() string {
 	return ""
 }
 
-type MusicProviderOAuthExchangeRequest struct {
+type MusicProviderOAuthCallbackRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	State         *string                `protobuf:"bytes,1,opt,name=state" json:"state,omitempty"`
 	Code          *string                `protobuf:"bytes,2,opt,name=code" json:"code,omitempty"`
@@ -337,20 +337,20 @@ type MusicProviderOAuthExchangeRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *MusicProviderOAuthExchangeRequest) Reset() {
-	*x = MusicProviderOAuthExchangeRequest{}
+func (x *MusicProviderOAuthCallbackRequest) Reset() {
+	*x = MusicProviderOAuthCallbackRequest{}
 	mi := &file_grpc_user_service_user_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *MusicProviderOAuthExchangeRequest) String() string {
+func (x *MusicProviderOAuthCallbackRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MusicProviderOAuthExchangeRequest) ProtoMessage() {}
+func (*MusicProviderOAuthCallbackRequest) ProtoMessage() {}
 
-func (x *MusicProviderOAuthExchangeRequest) ProtoReflect() protoreflect.Message {
+func (x *MusicProviderOAuthCallbackRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_grpc_user_service_user_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -362,19 +362,19 @@ func (x *MusicProviderOAuthExchangeRequest) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MusicProviderOAuthExchangeRequest.ProtoReflect.Descriptor instead.
-func (*MusicProviderOAuthExchangeRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use MusicProviderOAuthCallbackRequest.ProtoReflect.Descriptor instead.
+func (*MusicProviderOAuthCallbackRequest) Descriptor() ([]byte, []int) {
 	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *MusicProviderOAuthExchangeRequest) GetState() string {
+func (x *MusicProviderOAuthCallbackRequest) GetState() string {
 	if x != nil && x.State != nil {
 		return *x.State
 	}
 	return ""
 }
 
-func (x *MusicProviderOAuthExchangeRequest) GetCode() string {
+func (x *MusicProviderOAuthCallbackRequest) GetCode() string {
 	if x != nil && x.Code != nil {
 		return *x.Code
 	}
@@ -398,7 +398,7 @@ const file_grpc_user_service_user_service_proto_rawDesc = "" +
 	"\x06userID\x18\x01 \x01(\tR\x06userID\".\n" +
 	"\x1aMusicProviderLoginResponse\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\"M\n" +
-	"!MusicProviderOAuthExchangeRequest\x12\x14\n" +
+	"!MusicProviderOAuthCallbackRequest\x12\x14\n" +
 	"\x05state\x18\x01 \x01(\tR\x05state\x12\x12\n" +
 	"\x04code\x18\x02 \x01(\tR\x04code*2\n" +
 	"\x06Gender\x12\x12\n" +
@@ -415,7 +415,7 @@ const file_grpc_user_service_user_service_proto_rawDesc = "" +
 	"\n" +
 	"CreateUser\x12&.lovify_user_service.CreateUserRequest\x1a'.lovify_user_service.CreateUserResponse\x12u\n" +
 	"\x12MusicProviderLogin\x12..lovify_user_service.MusicProviderLoginRequest\x1a/.lovify_user_service.MusicProviderLoginResponse\x12l\n" +
-	"\x1aMusicProviderOAuthExchange\x126.lovify_user_service.MusicProviderOAuthExchangeRequest\x1a\x16.google.protobuf.EmptyB\x15Z\x13lovify-user/serviceb\beditionsp\xe8\a"
+	"\x1aMusicProviderOAuthCallback\x126.lovify_user_service.MusicProviderOAuthCallbackRequest\x1a\x16.google.protobuf.EmptyB\x15Z\x13lovify-user/serviceb\beditionsp\xe8\a"
 
 var (
 	file_grpc_user_service_user_service_proto_rawDescOnce sync.Once
@@ -438,7 +438,7 @@ var file_grpc_user_service_user_service_proto_goTypes = []any{
 	(*CreateUserResponse)(nil),                // 3: lovify_user_service.CreateUserResponse
 	(*MusicProviderLoginRequest)(nil),         // 4: lovify_user_service.MusicProviderLoginRequest
 	(*MusicProviderLoginResponse)(nil),        // 5: lovify_user_service.MusicProviderLoginResponse
-	(*MusicProviderOAuthExchangeRequest)(nil), // 6: lovify_user_service.MusicProviderOAuthExchangeRequest
+	(*MusicProviderOAuthCallbackRequest)(nil), // 6: lovify_user_service.MusicProviderOAuthCallbackRequest
 	(*timestamppb.Timestamp)(nil),             // 7: google.protobuf.Timestamp
 	(*emptypb.Empty)(nil),                     // 8: google.protobuf.Empty
 }
@@ -448,10 +448,10 @@ var file_grpc_user_service_user_service_proto_depIdxs = []int32{
 	1, // 2: lovify_user_service.CreateUserRequest.sexualOrientation:type_name -> lovify_user_service.SexualOrientation
 	2, // 3: lovify_user_service.UserService.CreateUser:input_type -> lovify_user_service.CreateUserRequest
 	4, // 4: lovify_user_service.UserService.MusicProviderLogin:input_type -> lovify_user_service.MusicProviderLoginRequest
-	6, // 5: lovify_user_service.UserService.MusicProviderOAuthExchange:input_type -> lovify_user_service.MusicProviderOAuthExchangeRequest
+	6, // 5: lovify_user_service.UserService.MusicProviderOAuthCallback:input_type -> lovify_user_service.MusicProviderOAuthCallbackRequest
 	3, // 6: lovify_user_service.UserService.CreateUser:output_type -> lovify_user_service.CreateUserResponse
 	5, // 7: lovify_user_service.UserService.MusicProviderLogin:output_type -> lovify_user_service.MusicProviderLoginResponse
-	8, // 8: lovify_user_service.UserService.MusicProviderOAuthExchange:output_type -> google.protobuf.Empty
+	8, // 8: lovify_user_service.UserService.MusicProviderOAuthCallback:output_type -> google.protobuf.Empty
 	6, // [6:9] is the sub-list for method output_type
 	3, // [3:6] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name

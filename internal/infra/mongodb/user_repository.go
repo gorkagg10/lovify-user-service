@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"context"
+	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -35,4 +36,14 @@ func (u *UserRepository) CreateUserProfile(ctx context.Context, profile *profile
 		return "", err
 	}
 	return userProfileID, nil
+}
+
+func (u *UserRepository) ConnectWithMusicProvider(ctx context.Context, userID string) error {
+	filter := bson.D{{"_id", userID}}
+	update := bson.D{{"$set", bson.D{{"music_provider_connected", true}}}}
+	_, err := u.UserProfileCollection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return err
+	}
+	return nil
 }

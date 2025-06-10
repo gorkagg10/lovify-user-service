@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	UserService_CreateUser_FullMethodName                 = "/lovify_user_service.UserService/CreateUser"
 	UserService_MusicProviderLogin_FullMethodName         = "/lovify_user_service.UserService/MusicProviderLogin"
-	UserService_MusicProviderOAuthExchange_FullMethodName = "/lovify_user_service.UserService/MusicProviderOAuthExchange"
+	UserService_MusicProviderOAuthCallback_FullMethodName = "/lovify_user_service.UserService/MusicProviderOAuthCallback"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -31,7 +31,7 @@ const (
 type UserServiceClient interface {
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
 	MusicProviderLogin(ctx context.Context, in *MusicProviderLoginRequest, opts ...grpc.CallOption) (*MusicProviderLoginResponse, error)
-	MusicProviderOAuthExchange(ctx context.Context, in *MusicProviderOAuthExchangeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	MusicProviderOAuthCallback(ctx context.Context, in *MusicProviderOAuthCallbackRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type userServiceClient struct {
@@ -62,10 +62,10 @@ func (c *userServiceClient) MusicProviderLogin(ctx context.Context, in *MusicPro
 	return out, nil
 }
 
-func (c *userServiceClient) MusicProviderOAuthExchange(ctx context.Context, in *MusicProviderOAuthExchangeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *userServiceClient) MusicProviderOAuthCallback(ctx context.Context, in *MusicProviderOAuthCallbackRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, UserService_MusicProviderOAuthExchange_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, UserService_MusicProviderOAuthCallback_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ func (c *userServiceClient) MusicProviderOAuthExchange(ctx context.Context, in *
 type UserServiceServer interface {
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
 	MusicProviderLogin(context.Context, *MusicProviderLoginRequest) (*MusicProviderLoginResponse, error)
-	MusicProviderOAuthExchange(context.Context, *MusicProviderOAuthExchangeRequest) (*emptypb.Empty, error)
+	MusicProviderOAuthCallback(context.Context, *MusicProviderOAuthCallbackRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -95,8 +95,8 @@ func (UnimplementedUserServiceServer) CreateUser(context.Context, *CreateUserReq
 func (UnimplementedUserServiceServer) MusicProviderLogin(context.Context, *MusicProviderLoginRequest) (*MusicProviderLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MusicProviderLogin not implemented")
 }
-func (UnimplementedUserServiceServer) MusicProviderOAuthExchange(context.Context, *MusicProviderOAuthExchangeRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method MusicProviderOAuthExchange not implemented")
+func (UnimplementedUserServiceServer) MusicProviderOAuthCallback(context.Context, *MusicProviderOAuthCallbackRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MusicProviderOAuthCallback not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -155,20 +155,20 @@ func _UserService_MusicProviderLogin_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_MusicProviderOAuthExchange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MusicProviderOAuthExchangeRequest)
+func _UserService_MusicProviderOAuthCallback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MusicProviderOAuthCallbackRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).MusicProviderOAuthExchange(ctx, in)
+		return srv.(UserServiceServer).MusicProviderOAuthCallback(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_MusicProviderOAuthExchange_FullMethodName,
+		FullMethod: UserService_MusicProviderOAuthCallback_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).MusicProviderOAuthExchange(ctx, req.(*MusicProviderOAuthExchangeRequest))
+		return srv.(UserServiceServer).MusicProviderOAuthCallback(ctx, req.(*MusicProviderOAuthCallbackRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -189,8 +189,8 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_MusicProviderLogin_Handler,
 		},
 		{
-			MethodName: "MusicProviderOAuthExchange",
-			Handler:    _UserService_MusicProviderOAuthExchange_Handler,
+			MethodName: "MusicProviderOAuthCallback",
+			Handler:    _UserService_MusicProviderOAuthCallback_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

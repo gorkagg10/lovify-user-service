@@ -14,6 +14,7 @@ import (
 	spotifyoauth2 "golang.org/x/oauth2/spotify"
 	"google.golang.org/grpc"
 
+	"github.com/gorkagg10/lovify-user-service/config"
 	"github.com/gorkagg10/lovify-user-service/database"
 	service "github.com/gorkagg10/lovify-user-service/grpc/user-service"
 	"github.com/gorkagg10/lovify-user-service/internal/domain/oauth"
@@ -28,6 +29,8 @@ func main() {
 
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
 	defer stop()
+
+	conf, err := config.NewConfig()
 
 	dbClient, err := database.Connect(ctx)
 	if err != nil {
@@ -48,7 +51,7 @@ func main() {
 	}
 	slog.Info("listening", slog.String("port", fmt.Sprintf(":%d", port)))
 
-	userServer := setupUserServer(dbClient)
+	userServer := setupUserServer(dbClient, conf.SpotifyOAuthConfig)
 	srv := SetupGrpcServer(userServer)
 
 	go func() {
@@ -69,16 +72,16 @@ func SetupGrpcServer(userServer *server.UserServer) *grpc.Server {
 	return grpcServer
 }
 
-func setupUserServer(dbClient *mongo.Client) *server.UserServer {
+func setupUserServer(dbClient *mongo.Client, spotifyOAuthConfig *config.SpotifyOAuthConfig) *server.UserServer {
 	userCollection := dbClient.Database("userService").Collection("profiles")
 
 	userRepository := mongodb.NewUserRepository(userCollection)
 	oAuthRepository := spotify.NewOAuthRepository(
 		&oauth2.Config{
-			ClientID:     "f4ed25e807ab4b74b981cd606a75699b",
-			ClientSecret: "4b8515bf00ed4f67bbcd9a77d7486bdb",
+			ClientID:     spotifyOAuthConfig.ClientID,
+			ClientSecret: spotifyOAuthConfig.ClientSecret,
 			Endpoint:     spotifyoauth2.Endpoint,
-			RedirectURL:  "http://127.0.0.1:8082/callback/spotify",
+			RedirectURL:  spotifyOAuthConfig.RedirectURL,
 			Scopes:       []string{"user-read-email", "user-read-recently-played", "user-top-read"},
 		},
 	)
