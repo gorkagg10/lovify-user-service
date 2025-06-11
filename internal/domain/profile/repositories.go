@@ -9,11 +9,16 @@ import (
 type UserRepository interface {
 	CreateUserProfile(context.Context, *UserProfile) (string, error)
 	ConnectWithMusicProvider(ctx context.Context, userID string) error
-	//StoreMusicProviderToken(ctx context.Context, userID string, accessToken *oauth.Token) error
-	//StoreMusicProviderData(ctx context.Context, userID string, musicProviderData *MusicProviderData) error
+	StoreMusicProviderToken(ctx context.Context, userID string, token *oauth.Token) error
+	StoreMusicProviderData(ctx context.Context, userID string, musicProviderData *MusicProviderData) error
+}
+
+type SecurityRepository interface {
+	EncryptToken(string) (string, error)
+	DecryptToken(string) (string, error)
 }
 
 type MusicProviderRepository interface {
-	GetTopTracks(token *oauth.Token) ([]Track, error)
-	GetTopArtists(token *oauth.Token) ([]Artist, error)
+	GetTopTracks(token string) ([]Track, error)
+	GetTopArtists(token string) ([]Artist, error)
 }

@@ -3,11 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/gorkagg10/lovify-user-service/internal/infra/aescgm"
 	"log/slog"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/oauth2"
@@ -72,10 +75,34 @@ func SetupGrpcServer(userServer *server.UserServer) *grpc.Server {
 	return grpcServer
 }
 
+func NewSecureHTTPClient() *http.Client {
+	dialer := &net.Dialer{
+		Timeout:   5 * time.Second,
+		KeepAlive: 30 * time.Second,
+	}
+
+	transport := &http.Transport{
+		DialContext:           dialer.DialContext,
+		ForceAttemptHTTP2:     true,
+		MaxIdleConns:          100,
+		IdleConnTimeout:       90 * time.Second,
+		ExpectContinueTimeout: 1 * time.Second,
+	}
+
+	return &http.Client{
+		Timeout:   15 * time.Second,
+		Transport: transport,
+	}
+}
+
 func setupUserServer(dbClient *mongo.Client, spotifyOAuthConfig *config.SpotifyOAuthConfig) *server.UserServer {
 	userCollection := dbClient.Database("userService").Collection("profiles")
+	musicProviderTokensCollection := dbClient.Database("userService").Collection("musicProviderTokens")
+	musicProviderDataCollection := dbClient.Database("userService").Collection("musicProviderData")
 
-	userRepository := mongodb.NewUserRepository(userCollection)
+	userRepository := mongodb.NewUserRepository(userCollection, musicProviderTokensCollection, musicProviderDataCollection)
+	securityRepository := aescgm.NewSecurityRepository("Q1wMqfEdIkjKZfxNNlf3qVaFOSv5AiRKrPCpW3kBB4c=")
+	musicProviderRepository := spotify.NewMusicProviderRepository(NewSecureHTTPClient())
 	oAuthRepository := spotify.NewOAuthRepository(
 		&oauth2.Config{
 			ClientID:     spotifyOAuthConfig.ClientID,
@@ -86,7 +113,7 @@ func setupUserServer(dbClient *mongo.Client, spotifyOAuthConfig *config.SpotifyO
 		},
 	)
 
-	profileManager := profile.NewManager(userRepository)
+	profileManager := profile.NewManager(userRepository, securityRepository, musicProviderRepository)
 	oAuthService := oauth.NewService(oAuthRepository)
 	return server.NewUserServer(profileManager, oAuthService)
 }

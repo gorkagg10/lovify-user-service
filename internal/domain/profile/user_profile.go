@@ -3,12 +3,13 @@ package profile
 import "time"
 
 type UserProfile struct {
-	username          string
-	birthday          time.Time
-	gender            string
-	sexualOrientation string
-	description       string
-	musicProviderInfo *MusicProviderData
+	username                 string
+	birthday                 time.Time
+	gender                   string
+	sexualOrientation        string
+	description              string
+	connectedToMusicProvider bool
+	musicProviderInfo        *MusicProviderData
 }
 
 func (u *UserProfile) Username() string {
@@ -35,6 +36,10 @@ func (u *UserProfile) MusicProviderInfo() *MusicProviderData {
 	return u.musicProviderInfo
 }
 
+func (u *UserProfile) ConnectedToMusicProvider() bool {
+	return u.connectedToMusicProvider
+}
+
 func NewUserProfile(
 	username string,
 	birthday time.Time,
@@ -43,13 +48,11 @@ func NewUserProfile(
 	description string,
 ) *UserProfile {
 	return &UserProfile{
-		username:          username,
-		birthday:          birthday,
-		gender:            gender,
-		sexualOrientation: sexualOrientation,
-		description:       description,
-		musicProviderInfo: &MusicProviderData{
-			connected: false,
-		},
+		username:                 username,
+		birthday:                 birthday,
+		gender:                   gender,
+		sexualOrientation:        sexualOrientation,
+		description:              description,
+		connectedToMusicProvider: false,
 	}
 }

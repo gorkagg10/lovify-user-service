@@ -8,11 +8,21 @@ import (
 )
 
 type Manager struct {
-	userRepository UserRepository
+	userRepository          UserRepository
+	securityRepository      SecurityRepository
+	musicProviderRepository MusicProviderRepository
 }
 
-func NewManager(userRepository UserRepository) *Manager {
-	return &Manager{userRepository: userRepository}
+func NewManager(
+	userRepository UserRepository,
+	securityRepository SecurityRepository,
+	musicProviderRepository MusicProviderRepository,
+) *Manager {
+	return &Manager{
+		userRepository:          userRepository,
+		securityRepository:      securityRepository,
+		musicProviderRepository: musicProviderRepository,
+	}
 }
 
 func (m *Manager) CreateUserProfile(ctx context.Context, req *userServiceGrpc.CreateUserRequest) (string, error) {
@@ -26,6 +36,34 @@ func (m *Manager) CreateUserProfile(ctx context.Context, req *userServiceGrpc.Cr
 	return m.userRepository.CreateUserProfile(ctx, userProfile)
 }
 
+func (m *Manager) encryptToken(token *oauth.Token) (*oauth.Token, error) {
+	encryptedAccessToken, err := m.securityRepository.EncryptToken(token.AccessToken())
+	if err != nil {
+		return nil, err
+	}
+	encryptedRefreshToken, err := m.securityRepository.EncryptToken(token.RefreshToken())
+	if err != nil {
+		return nil, err
+	}
+	return oauth.NewToken(
+		encryptedAccessToken,
+		encryptedRefreshToken,
+		token.ExpiresAt(),
+	), nil
+}
+
+func (m *Manager) getMusicProviderData(token *oauth.Token) (*MusicProviderData, error) {
+	topTracks, err := m.musicProviderRepository.GetTopTracks(token.AccessToken())
+	if err != nil {
+		return nil, err
+	}
+	topArtists, err := m.musicProviderRepository.GetTopArtists(token.AccessToken())
+	if err != nil {
+		return nil, err
+	}
+	return NewMusicProviderData(topTracks, topArtists), nil
+}
+
 func (m *Manager) ConnectWithMusicProvider(ctx context.Context, state string, token *oauth.Token) error {
 	userID, err := getUserID(state)
 	if err != nil {
@@ -35,12 +73,25 @@ func (m *Manager) ConnectWithMusicProvider(ctx context.Context, state string, to
 	if err != nil {
 		return err
 	}
-	/*
-		err = m.userRepository.StoreMusicProviderToken(ctx, userID, token)
-		if err != nil {
-			return err
-		}
-	*/
+
+	musicProviderData, err := m.getMusicProviderData(token)
+	if err != nil {
+		return err
+	}
+	err = m.userRepository.StoreMusicProviderData(ctx, userID, musicProviderData)
+	if err != nil {
+		return err
+	}
+
+	token, err = m.encryptToken(token)
+	if err != nil {
+		return err
+	}
+	err = m.userRepository.StoreMusicProviderToken(ctx, userID, token)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 

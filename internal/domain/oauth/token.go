@@ -15,3 +15,15 @@ func NewToken(accessToken, refreshToken string, expiresAt time.Time) *Token {
 		expiresAt:    expiresAt,
 	}
 }
+
+func (t *Token) AccessToken() string {
+	return t.accessToken
+}
+
+func (t *Token) RefreshToken() string {
+	return t.refreshToken
+}
+
+func (t *Token) ExpiresAt() time.Time {
+	return t.expiresAt
+}
