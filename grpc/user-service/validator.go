@@ -6,8 +6,8 @@ func (u *CreateUserRequest) Validate() error {
 	switch {
 	case u == nil:
 		return errors.ErrInvalidCreateUserRequest
-	case u.GetUsername() == "":
-		return errors.ErrInvalidUsername
+	case u.GetEmail() == "":
+		return errors.ErrInvalidEmail
 	case u.GetBirthday() == nil:
 		return errors.ErrInvalidBirthday
 	case u.GetGender() == Gender_UNKNOWN_GENDER:

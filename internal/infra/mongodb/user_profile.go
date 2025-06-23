@@ -2,7 +2,7 @@ package mongodb
 
 type UserProfile struct {
 	ID                     string `bson:"_id,omitempty"`
-	Username               string `bson:"username"`
+	Email                  string `bson:"email"`
 	Birthday               string `bson:"birthday"`
 	Gender                 string `bson:"gender"`
 	SexualOrientation      string `bson:"sexual_orientation"`
@@ -12,7 +12,7 @@ type UserProfile struct {
 
 func NewUserProfile(
 	id string,
-	username string,
+	email string,
 	birthday string,
 	gender string,
 	sexualOrientation string,
@@ -21,7 +21,7 @@ func NewUserProfile(
 ) *UserProfile {
 	return &UserProfile{
 		ID:                     id,
-		Username:               username,
+		Email:                  email,
 		Birthday:               birthday,
 		Gender:                 gender,
 		SexualOrientation:      sexualOrientation,

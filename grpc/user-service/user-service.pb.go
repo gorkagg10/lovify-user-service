@@ -123,7 +123,7 @@ func (SexualOrientation) EnumDescriptor() ([]byte, []int) {
 
 type CreateUserRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
-	Username          *string                `protobuf:"bytes,1,opt,name=username" json:"username,omitempty"`
+	Email             *string                `protobuf:"bytes,1,opt,name=email" json:"email,omitempty"`
 	Birthday          *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=birthday" json:"birthday,omitempty"`
 	Gender            *Gender                `protobuf:"varint,3,opt,name=gender,enum=lovify_user_service.Gender" json:"gender,omitempty"`
 	SexualOrientation *SexualOrientation     `protobuf:"varint,4,opt,name=sexualOrientation,enum=lovify_user_service.SexualOrientation" json:"sexualOrientation,omitempty"`
@@ -162,9 +162,9 @@ func (*CreateUserRequest) Descriptor() ([]byte, []int) {
 	return file_grpc_user_service_user_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateUserRequest) GetUsername() string {
-	if x != nil && x.Username != nil {
-		return *x.Username
+func (x *CreateUserRequest) GetEmail() string {
+	if x != nil && x.Email != nil {
+		return *x.Email
 	}
 	return ""
 }
@@ -385,9 +385,9 @@ var File_grpc_user_service_user_service_proto protoreflect.FileDescriptor
 
 const file_grpc_user_service_user_service_proto_rawDesc = "" +
 	"\n" +
-	"$grpc/user-service/user-service.proto\x12\x13lovify_user_service\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x94\x02\n" +
-	"\x11CreateUserRequest\x12\x1a\n" +
-	"\busername\x18\x01 \x01(\tR\busername\x126\n" +
+	"$grpc/user-service/user-service.proto\x12\x13lovify_user_service\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8e\x02\n" +
+	"\x11CreateUserRequest\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\x126\n" +
 	"\bbirthday\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\bbirthday\x123\n" +
 	"\x06gender\x18\x03 \x01(\x0e2\x1b.lovify_user_service.GenderR\x06gender\x12T\n" +
 	"\x11sexualOrientation\x18\x04 \x01(\x0e2&.lovify_user_service.SexualOrientationR\x11sexualOrientation\x12 \n" +

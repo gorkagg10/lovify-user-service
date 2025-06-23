@@ -27,7 +27,7 @@ func NewManager(
 
 func (m *Manager) CreateUserProfile(ctx context.Context, req *userServiceGrpc.CreateUserRequest) (string, error) {
 	userProfile := NewUserProfile(
-		req.GetUsername(),
+		req.GetEmail(),
 		req.GetBirthday().AsTime(),
 		req.GetGender().String(),
 		req.GetSexualOrientation().String(),

@@ -25,7 +25,7 @@ enum SexualOrientation {
 }
 
 message CreateUserRequest {
-  string username = 1;
+  string email = 1;
   google.protobuf.Timestamp birthday = 2;
   Gender gender = 3;
   SexualOrientation sexualOrientation = 4;

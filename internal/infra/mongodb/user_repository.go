@@ -32,7 +32,7 @@ func (u *UserRepository) CreateUserProfile(ctx context.Context, profile *profile
 	userProfileID := uuid.New().String()
 	userProfile := NewUserProfile(
 		userProfileID,
-		profile.Username(),
+		profile.Email(),
 		profile.Birthday().String(),
 		profile.Gender(),
 		profile.SexualOrientation(),
