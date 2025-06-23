@@ -128,6 +128,7 @@ type CreateUserRequest struct {
 	Gender            *Gender                `protobuf:"varint,3,opt,name=gender,enum=lovify_user_service.Gender" json:"gender,omitempty"`
 	SexualOrientation *SexualOrientation     `protobuf:"varint,4,opt,name=sexualOrientation,enum=lovify_user_service.SexualOrientation" json:"sexualOrientation,omitempty"`
 	Description       *string                `protobuf:"bytes,5,opt,name=description" json:"description,omitempty"`
+	Name              *string                `protobuf:"bytes,6,opt,name=name" json:"name,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -193,6 +194,13 @@ func (x *CreateUserRequest) GetSexualOrientation() SexualOrientation {
 func (x *CreateUserRequest) GetDescription() string {
 	if x != nil && x.Description != nil {
 		return *x.Description
+	}
+	return ""
+}
+
+func (x *CreateUserRequest) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
 	}
 	return ""
 }
@@ -385,13 +393,14 @@ var File_grpc_user_service_user_service_proto protoreflect.FileDescriptor
 
 const file_grpc_user_service_user_service_proto_rawDesc = "" +
 	"\n" +
-	"$grpc/user-service/user-service.proto\x12\x13lovify_user_service\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8e\x02\n" +
+	"$grpc/user-service/user-service.proto\x12\x13lovify_user_service\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa2\x02\n" +
 	"\x11CreateUserRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x126\n" +
 	"\bbirthday\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\bbirthday\x123\n" +
 	"\x06gender\x18\x03 \x01(\x0e2\x1b.lovify_user_service.GenderR\x06gender\x12T\n" +
 	"\x11sexualOrientation\x18\x04 \x01(\x0e2&.lovify_user_service.SexualOrientationR\x11sexualOrientation\x12 \n" +
-	"\vdescription\x18\x05 \x01(\tR\vdescription\",\n" +
+	"\vdescription\x18\x05 \x01(\tR\vdescription\x12\x12\n" +
+	"\x04name\x18\x06 \x01(\tR\x04name\",\n" +
 	"\x12CreateUserResponse\x12\x16\n" +
 	"\x06userID\x18\x01 \x01(\tR\x06userID\"3\n" +
 	"\x19MusicProviderLoginRequest\x12\x16\n" +

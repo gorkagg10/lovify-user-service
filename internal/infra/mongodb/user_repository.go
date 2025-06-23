@@ -33,6 +33,7 @@ func (u *UserRepository) CreateUserProfile(ctx context.Context, profile *profile
 	userProfile := NewUserProfile(
 		userProfileID,
 		profile.Email(),
+		profile.Name(),
 		profile.Birthday().String(),
 		profile.Gender(),
 		profile.SexualOrientation(),

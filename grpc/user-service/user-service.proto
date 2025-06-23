@@ -30,6 +30,7 @@ message CreateUserRequest {
   Gender gender = 3;
   SexualOrientation sexualOrientation = 4;
   string description = 5;
+  string name = 6;
 }
 
 message CreateUserResponse {

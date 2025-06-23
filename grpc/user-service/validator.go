@@ -14,6 +14,8 @@ func (u *CreateUserRequest) Validate() error {
 		return errors.ErrInvalidCreateUserRequest
 	case u.GetSexualOrientation() == SexualOrientation_UNKNOWN_SEXUAL_ORIENTATION:
 		return errors.ErrInvalidCreateUserRequest
+	case u.GetName() == "":
+		return errors.ErrInvalidName
 	default:
 		return nil
 	}

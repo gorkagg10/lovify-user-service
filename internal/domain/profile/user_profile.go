@@ -5,6 +5,7 @@ import "time"
 type UserProfile struct {
 	email                    string
 	birthday                 time.Time
+	name                     string
 	gender                   string
 	sexualOrientation        string
 	description              string
@@ -22,6 +23,10 @@ func (u *UserProfile) Birthday() time.Time {
 
 func (u *UserProfile) Gender() string {
 	return u.gender
+}
+
+func (u *UserProfile) Name() string {
+	return u.name
 }
 
 func (u *UserProfile) SexualOrientation() string {
@@ -43,6 +48,7 @@ func (u *UserProfile) ConnectedToMusicProvider() bool {
 func NewUserProfile(
 	email string,
 	birthday time.Time,
+	name string,
 	gender string,
 	sexualOrientation string,
 	description string,
@@ -50,6 +56,7 @@ func NewUserProfile(
 	return &UserProfile{
 		email:                    email,
 		birthday:                 birthday,
+		name:                     name,
 		gender:                   gender,
 		sexualOrientation:        sexualOrientation,
 		description:              description,

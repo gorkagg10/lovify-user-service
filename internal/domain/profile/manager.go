@@ -29,6 +29,7 @@ func (m *Manager) CreateUserProfile(ctx context.Context, req *userServiceGrpc.Cr
 	userProfile := NewUserProfile(
 		req.GetEmail(),
 		req.GetBirthday().AsTime(),
+		req.GetName(),
 		req.GetGender().String(),
 		req.GetSexualOrientation().String(),
 		req.GetDescription(),
